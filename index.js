@@ -2,11 +2,11 @@ var http = require('http');
 var app = require('./app/express-app');
 
 var httpServer = http.createServer();
-
+var port = 5660;
 httpServer.on('request', app);
 
-httpServer.listen(5660, function () {
-    console.log("Http server has started");
+httpServer.listen(port, function () {
+    console.log("Http server has started at port: " + port);
 
 });
 
