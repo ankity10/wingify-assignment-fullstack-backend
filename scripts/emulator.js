@@ -27,7 +27,7 @@ var generate_notification = function () {
                 return 1;
             }
             else {
-                console.log(users);
+                // console.log(users);
                 Action.find().exec(
                     function (err, actions) {
                         if (err) {
