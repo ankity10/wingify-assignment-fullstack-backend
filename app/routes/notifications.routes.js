@@ -5,7 +5,6 @@ var express = require('express');
 
 var notification_router = express.Router();
 
-
 var notification_controller = require('../controller/notifications.controller');
 
 notification_router.route('/notification')

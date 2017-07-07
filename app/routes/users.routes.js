@@ -5,7 +5,6 @@ var express = require('express');
 
 var user_router = express.Router();
 
-
 var user_controller = require('../controller/users.controller');
 
 user_router.route('/me')

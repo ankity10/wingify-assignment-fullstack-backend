@@ -10,10 +10,10 @@ var User = mongoose.model('User');
 var loggedin_user_id = config.loggedin_user_id;
 
 module.exports = {
-     
+
     me: function (req, res) {
         User.findOne({_id: mongoose.Types.ObjectId(loggedin_user_id)}, function (err, user) {
-            if(err) {
+            if (err) {
                 res.send({
                     error: 1,
                     message: err

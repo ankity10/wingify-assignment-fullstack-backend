@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "emulate": "node app/utils/emulator"
+    "emulate": "node ./scripts/emulator"
   },
   "author": "Ankit Yadav <ankitwrk at gmail.com>",
   "license": "ISC",
@@ -14,8 +14,6 @@
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "lodash": "^4.17.4",
-    "mongoose": "^4.10.5",
-    "path": "^0.12.7",
-    "websocket": "^1.0.24"
+    "mongoose": "^4.10.5"
   }
 }

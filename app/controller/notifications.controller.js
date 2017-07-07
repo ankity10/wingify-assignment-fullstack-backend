@@ -23,7 +23,7 @@ var _combine_groups = function (result) {
     for (var property in result) {
         if (result.hasOwnProperty(property) && (result[property].length > 0)) {
             notification_count += 1;
-            console.log(result[property]);
+            // console.log(result[property]);
             var obj = {};
             obj.action = result[property][0]['action'];
             obj.sender = [];
@@ -35,13 +35,12 @@ var _combine_groups = function (result) {
             }
             obj.sender_count = sender_count;
             result_array.push(obj);
-            console.log(property);
+            // console.log(property);
         }
     }
     // console.log(result_array);
     return [result_array, notification_count];
 };
-
 
 
 module.exports = {
@@ -75,10 +74,13 @@ module.exports = {
                 });
             }
             else {
+                // console.log(db_result);
                 var result = {};
                 db_result.forEach(function (notification) {
                     if (result[notification.action.type] == undefined) {
                         result[notification.action.type] = [];
+                        result[notification.action.type].push(notification);
+
                     }
                     else {
                         result[notification.action.type].push(notification);
@@ -99,31 +101,55 @@ module.exports = {
     },
 
     "update": function (req, res) {
-        var group_keys = req.body.group_keys;
-        var key_list = group_keys.split(",");
-        console.log(key_list);
-        key_list.forEach(function (key) {
-            console.log(key);
-            key = String(key).trim();
-            Notification.update({action: new mongoose.Types.ObjectId(key), is_read: false},
-                {is_read: true},
-                {multi: true},
-                function (err, num) {
-                    console.log(err, num);
-                    if (err !== null) {
-                        res.send({
-                            error: 1,
-                            message: "Failed to update notification status"
-                        });
-                    }
+
+        var action_keys = req.body.action_keys;
+        console.log(action_keys);
+        if (action_keys) {
+            var key_list = action_keys.split(",");
+            console.log(key_list);
+            var error = [];
+            key_list.forEach(function (key) {
+                console.log(key);
+                key = String(key).trim();
+
+                if (/^[0-9a-fA-F]{24}$/.test(key)) {
+                    Notification.update({action: new mongoose.Types.ObjectId(key), is_read: false},
+                        {is_read: true},
+                        {multi: true},
+                        function (err, num) {
+                            console.log(err, num);
+                            if (err !== null) {
+                                res.send({
+                                    error: 1,
+                                    message: "Failed to update notification status"
+                                });
+                            }
+                        }
+                    )
                 }
-            )
-        });
-
-        res.send({
-            error: 0,
-            message: "Notification updated successfully"
-        })
+                else {
+                    error.push("Invalid 'action key': " + key);
+                }
+            });
+            if (error.length !== 0) {
+                res.send(({
+                    error: 1,
+                    message: error
+                }))
+            }
+            else {
+                res.send({
+                    error: 0,
+                    message: "Notification status updated successfully"
+                })
+            }
+        }
+        else {
+            res.send({
+                error: 1,
+                message: "Notification status update failed. " +
+                "Expecting 'action_keys' as POST data in this request."
+            })
+        }
     }
-
 };

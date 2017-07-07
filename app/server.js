@@ -24,6 +24,9 @@ app.use(user_middleware);
  */
 app.use(function (req, res, next) {
     console.log("Express got a request!");
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     next();
 });
 
@@ -36,8 +39,6 @@ app.use(notification_api_router);
  * Users api middleware, adds route for user REST api
  */
 app.use(user_api_router);
-
-
 
 module.exports = app;
 
