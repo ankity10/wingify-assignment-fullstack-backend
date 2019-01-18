@@ -30,5 +30,4 @@ Generating Notification from server:
 
 In case something is not working, please reach out to me.
 Author : Ankit Yadav
-Email: ankitwrk@gmail.com
-Mobile: 8087850104
+Email: ankitwrk at gmail.com
